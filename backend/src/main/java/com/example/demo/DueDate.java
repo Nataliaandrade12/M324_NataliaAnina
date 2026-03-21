@@ -16,5 +16,8 @@ public class DueDate {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-    
+
+    public boolean isOverdue() {
+        return date.isBefore(LocalDate.now());
+    }
 }
