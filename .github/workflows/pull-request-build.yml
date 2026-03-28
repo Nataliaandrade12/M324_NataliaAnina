@@ -47,5 +47,8 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Maven Wrapper ausführbar machen
+        run: chmod +x mvnw
+
       - name: Maven Build ausführen
         run: ./mvnw clean package
