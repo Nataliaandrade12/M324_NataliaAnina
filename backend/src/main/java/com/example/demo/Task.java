@@ -5,7 +5,7 @@ package com.example.demo;
  */
 import java.util.Objects;
 
-// atask with only one field, the description of the task
+// a simple task with only one field, the description of the task
 public class Task {
 
 	private String taskdescription;
@@ -21,6 +21,7 @@ public class Task {
 		this.taskdescription = taskdescription;
 	}
 
+	// equals and hashcode based on the taskdescription field
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
