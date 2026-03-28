@@ -9,6 +9,7 @@ public class DueDate {
         this.date = date;
     }
 
+    // Getters and setters
     public LocalDate getDate() {
         return date;
     }
