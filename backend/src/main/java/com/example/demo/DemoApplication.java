@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.boot.SpringApplication;
@@ -38,66 +37,61 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	private List<Task> tasks = new ArrayList<>();
+	private static final String REDIRECT_HOME = "redirect:/";
+	private final ObjectMapper mapper = new ObjectMapper();
+	private final List<Task> tasks = new ArrayList<>();
 
 	@CrossOrigin
 	@GetMapping("/")
 	public List<Task> getTasks() {
-
+		// REST endpoint that returns the current task list as JSON.
 		System.out.println("API EP '/' returns task-list of size " + tasks.size() + ".");
-		if (tasks.size() > 0) {
-			int i = 1;
-			for (Task task : tasks) {
-				System.out.println("-task " + (i++) + ":" + task.getTaskdescription());
-			}
-		}
-		return tasks; // actual task list (internally converted to a JSON stream)
+		return tasks;
 	}
 
 	@CrossOrigin
 	@PostMapping("/tasks")
-	public String addTask(@RequestBody String taskdescription) {
-		System.out.println("API EP '/tasks': '" + taskdescription + "'");
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			Task task;
-			task = mapper.readValue(taskdescription, Task.class);
-			for (Task t : tasks) {
-				if (t.getTaskdescription().equals(task.getTaskdescription())) {
-					System.out.println(">>>task: '" + task.getTaskdescription() + "' already exists!");
-					return "redirect:/"; // duplicates will be ignored
-				}
-			}
-			System.out.println("...adding task: '" + task.getTaskdescription() + "'");
-			tasks.add(task);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+	public String addTask(@RequestBody String body) {
+		System.out.println("API EP '/tasks': '" + body + "'");
+		Task task = parseTask(body);
+		if (task == null) {
+			return REDIRECT_HOME;
 		}
-		return "redirect:/";
+
+		if (tasks.contains(task)) {
+			System.out.println(">>>task: '" + task.getTaskdescription() + "' already exists!");
+			return REDIRECT_HOME;
+		}
+
+		tasks.add(task);
+		System.out.println("...adding task: '" + task.getTaskdescription() + "'");
+		return REDIRECT_HOME;
 	}
 
 	@CrossOrigin
 	@PostMapping("/delete")
-	public String delTask(@RequestBody String taskdescription) {
-		System.out.println("API EP '/delete': '" + taskdescription + "'");
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			Task task;
-			task = mapper.readValue(taskdescription, Task.class);
-			Iterator<Task> it = tasks.iterator();
-			while (it.hasNext()) {
-				Task t = it.next();
-				if (t.getTaskdescription().equals(task.getTaskdescription())) {
-					System.out.println("...deleting task: '" + task.getTaskdescription() + "'");
-					it.remove();
-					return "redirect:/";
-				}
-			}
-			System.out.println(">>>task: '" + task.getTaskdescription() + "' not found!");
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+	public String delTask(@RequestBody String body) {
+		System.out.println("API EP '/delete': '" + body + "'");
+		Task task = parseTask(body);
+		if (task == null) {
+			return REDIRECT_HOME;
 		}
-		return "redirect:/";
+
+		if (tasks.remove(task)) {
+			System.out.println("...deleting task: '" + task.getTaskdescription() + "'");
+		} else {
+			System.out.println(">>>task: '" + task.getTaskdescription() + "' not found!");
+		}
+		return REDIRECT_HOME;
+	}
+
+	private Task parseTask(String body) {
+		try {
+			return mapper.readValue(body, Task.class);
+		} catch (JsonProcessingException e) {
+			System.err.println("Failed to parse task JSON: " + e.getMessage());
+			return null;
+		}
 	}
 
 }

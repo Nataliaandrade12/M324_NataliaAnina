@@ -1,22 +1,37 @@
 package com.example.demo;
-
 /** the simplest task 
  * 
  * @author luh
  */
+import java.util.Objects;
+
 public class Task {
-	
-	private String taskdescription; // must have the EXACT name as his React state property and may not be ignored!
+
+	private String taskdescription;
 
 	public Task() {
-    }
+	}
 
-	public String getTaskdescription() { // do not apply camel-case here! Its a Bean!
+	public String getTaskdescription() {
 		return taskdescription;
 	}
 
-	public void setTaskdescription(String taskdescription) { // do not apply camel-case here! Its a Bean!
+	public void setTaskdescription(String taskdescription) { 
 		this.taskdescription = taskdescription;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Task))
+			return false;
+		Task other = (Task) o;
+		return Objects.equals(taskdescription, other.taskdescription);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(taskdescription);
+	}
 }
