@@ -5,6 +5,7 @@ package com.example.demo;
  */
 import java.util.Objects;
 
+// atask with only one field, the description of the task
 public class Task {
 
 	private String taskdescription;
