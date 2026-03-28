@@ -2,42 +2,95 @@
 
 ## TLDR
 Projektgruppe: Anina und Natalia
-ToDo-Liste mit React (frontend) und Spring (backend). Weitere Details sind in den
-Kommentaren vor allem in App.js zu finden.
+Dieses Projekt ist eine einfache ToDo-Webanwendung mit:
+Frontend: React
+Backend: Spring Boot
+Die Anwendung ermöglicht das Erstellen und Löschen von Tasks.
+Weitere Details zur Funktionsweise befinden sich im Code, insbesondere in der App.js.
 
-## Relevante Dateien in den Teil-Projekten (Verzeichnisse):
+## Projektstruktur / Relevante Dateien
 
-1. diese Beschreibung
-2. frontend (Tools: npm und VSCode)
-	* App.js
+Frontend (React – VS Code, npm)
+App.js → Hauptlogik der Anwendung
 
-3. backend (Eclipse oder VS-Code)
-	* DemoApplication.java
-	* Task.java
-	* pom.xml (JAR configuration, mit div. Plugins s.u.)
+Backend (Spring Boot – Eclipse oder VS Code)
+DemoApplication.java → Startpunkt der Anwendung
+Task.java → Datenmodell für Tasks
+pom.xml → Maven-Konfiguration (inkl. Plugins & Build)
 
 ## Inbetriebnahme
 
-1. forken oder clonen
-1. *backend* in Eclipse importieren und mit Maven starten, oder in VS-Code via Java Extension Pack. Ohne Persistenz - nach dem Serverneustart sind die Todos futsch. Läuft auf default port 8080.
-2. Im Terminal im *frontend* Verzeichnis
-	1. mit `npm install` benötige Module laden
-	2. mit `npm run dev` den Frontend-Server starten
+Repository klonen oder forken
+Backend starten
+	In VS Code mit Java Extension Pack öffnen
+	Anwendung starten
+Backend läuft auf: http://localhost:8080
+Hinweis: Keine Persistenz → Daten gehen nach Neustart verloren
+
+Frontend starten
+	Terminal im frontend-Ordner öffnen
+	Abhängigkeiten installieren:
+		npm install
+	Frontend starten:
+		npm run dev
 
 ## Benutzung
 
-1. http://localhost:5173 zeigt das Frontend an. Hier kann man Tasks eingeben, die sofort darunter in der Liste mit einem *Done*-Button angezeigt werden.
-2. Klickt man auf den *Done*-Button eines Tasks wird dieser aus der Liste entfernt (und natürlich auch von Backend-Server).
-3. Die Task Beschreibungen müssen eindeutig (bzw. einmalig) sein.
+Frontend öffnen:
+	http://localhost:5173
+Funktionen:
+	Tasks hinzufügen
+	Tasks werden sofort in der Liste angezeigt
+	Mit "Done" können Tasks gelöscht werden
+Wichtig:
+	Task-Namen müssen eindeutig sein
 
-### Anstehende Aufgaben
 
-- Erweiterung der Funktionalität durch die Lernenden
-- Alternatives Backend für eine VM (WAR Konfiguration)
-- Test Umbegung mit Unit-Tests erweitern
+## CI Pipeline – GitHub Actions
+Beschreibung:
+Für dieses Projekt wurde eine GitHub Actions Pipeline erstellt, die automatisch bei jedem Pull Request ausgeführt wird.
+Ziel der Pipeline ist es, sicherzustellen, dass sowohl das Frontend als auch das Backend erfolgreich gebaut werden können.
 
-(Ausgaben für white-box debugging sind bereits auf den beiden Server vorhanden)
+## Trigger
+Die Pipeline wird automatisch ausgelöst bei:
+	Pull Requests auf den Branch `main`
+Dies stellt sicher, dass Änderungen vor dem Mergen überprüft werden.
 
-### Benotung
+## Ablauf der Pipeline
+Die Pipeline besteht aus zwei Jobs:
+### Frontend Build
+	Node.js wird installiert
+	Abhängigkeiten werden mit `npm install` installiert
+	Das Projekt wird mit `npm run build` gebaut
+Ergebnis: HTML, CSS und JavaScript Dateien werden generiert
 
-Die Benotung beinhaltet alle Sidequests des Modules 324
+### Backend Build
+	Java 17 wird installiert
+	Maven Wrapper (`mvnw`) wird verwendet
+	Der Build wird mit `./mvnw clean package` ausgeführt
+Ergebnis: Es wird eine `.war` Datei erstellt
+
+## Verwendete Technologien
+	React (Frontend)
+	Spring Boot (Backend)
+	Maven (Build-Tool)
+	GitHub Actions (CI/CD Pipeline)
+
+## Nutzen der Pipeline
+Die Pipeline bringt folgende Vorteile:
+	Fehler werden früh erkannt
+	Sicherstellung, dass der Code buildbar ist
+	Automatische Überprüfung bei jeder Änderung
+	Verbesserte Codequalität
+	Unterstützung der Teamarbeit
+
+## Test der Pipeline
+Die Pipeline wurde getestet durch:
+1. Erstellen eines neuen Branches
+2. Durchführung von Änderungen
+3. Erstellen eines Pull Requests auf `main`
+4. Automatisches Starten der Pipeline
+Die Builds für Frontend und Backend wurden erfolgreich ausgeführt.
+
+## Hinweis
+Die Ausführung der Pipeline kann im Tab "Actions" auf GitHub eingesehen werden.
