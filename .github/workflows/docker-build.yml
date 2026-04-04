@@ -29,16 +29,16 @@ jobs:
 
       - name: Frontend Image bauen
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/m324_nataliaanina-frontend:latest ./frontend
+          docker build -t ghcr.io/${{ github.repository_owner }}/M324_NataliaAnina-frontend:latest ./frontend
 
       - name: Frontend Image pushen
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/m324_nataliaanina-frontend:latest
+          docker push ghcr.io/${{ github.repository_owner }}/M324_NataliaAnina-frontend:latest
 
       - name: Backend Image bauen
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/m324_nataliaanina-backend:latest ./backend
+          docker build -t ghcr.io/${{ github.repository_owner }}/M324_NataliaAnina-backend:latest ./backend
 
       - name: Backend Image pushen
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/m324_nataliaanina-backend:latest
+          docker push ghcr.io/${{ github.repository_owner }}/M324_NataliaAnina-backend:latest
