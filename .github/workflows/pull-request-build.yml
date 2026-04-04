@@ -51,9 +51,7 @@ jobs:
         run: chmod +x mvnw
 
       - name: Maven Build ausführen
-        run: ./mvnw clean package
-
-        name: Pull Request Build
+        run: ./mvnw clean package -DskipTests
 
   frontend-test:
     name: Test Frontend
@@ -77,7 +75,7 @@ jobs:
         run: npm install
 
       - name: Frontend Tests ausführen
-        run: npm test -- --runInBand
+        run: npm test
 
   backend-test:
     name: Test Backend

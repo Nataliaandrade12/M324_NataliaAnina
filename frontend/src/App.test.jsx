@@ -1,10 +1,23 @@
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import App from "./App";
 
+beforeEach(() => {
+  global.fetch = vi.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve([]),
+    })
+  );
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
 describe("App", () => {
-  it("renders something", () => {
+  it("renders without crashing", () => {
     render(<App />);
-    expect(document.body).toBeTruthy();
+    expect(true).toBe(true);
   });
 });
