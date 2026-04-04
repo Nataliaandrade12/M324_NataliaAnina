@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  backend:
+    image: ghcr.io/Nataliaandrade12/M324_NataliaAnina-backend:latest
+    container_name: todo-backend
+    ports:
+      - "8080:8080"
+
+  frontend:
+    image: ghcr.io/Nataliaandrade12/M324_NataliaAnina-frontend:latest
+    container_name: todo-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
