@@ -28,17 +28,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Frontend Image bauen
-        run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/m324_nataliaanina-frontend:latest ./frontend
+        run: docker build -t ghcr.io/nataliaandrade12/m324_nataliaanina-frontend:latest ./frontend
 
       - name: Frontend Image pushen
-        run: |
-          docker push ghcr.io/${{ github.repository_owner }}/m324_nataliaanina-frontend:latest
+        run: docker push ghcr.io/nataliaandrade12/m324_nataliaanina-frontend:latest
 
       - name: Backend Image bauen
-        run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/m324_nataliaanina-backend:latest ./backend
+        run: docker build -t ghcr.io/nataliaandrade12/m324_nataliaanina-backend:latest ./backend
 
       - name: Backend Image pushen
-        run: |
-          docker push ghcr.io/${{ github.repository_owner }}/m324_nataliaanina-backend:latest
+        run: docker push ghcr.io/nataliaandrade12/m324_nataliaanina-backend:latest
